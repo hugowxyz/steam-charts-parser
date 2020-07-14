@@ -1,5 +1,6 @@
 import urllib.request
 from bs4 import BeautifulSoup
+from optparse import OptionParser
 
 
 # StackOverflow post for setting headers https://stackoverflow.com/questions/13055208/httperror-http-error-403-forbidden
@@ -18,9 +19,9 @@ class Month:
         self.percentGain = percent_gain
         self.peak = peak
 
-    def show(self):
-        print("Month\t\t\tAverage Players\t\tPlayer Gain\t\tPercentage Gain\t\tPeak")
-        print(f"{self.month}\t{self.avgPlayers}\t\t{self.gain}\t\t{self.percentGain}\t\t{self.peak}")
+#    def show(self):
+#        print("Month\t\t\tAverage Players\t\tPlayer Gain\t\tPercentage Gain\t\tPeak")
+#        print(f"{self.month}\t{self.avgPlayers}\t\t{self.gain}\t\t{self.percentGain}\t\t{self.peak}")
 
     def read(self):
         file = open(f'{self.game}.txt', 'r')
@@ -51,10 +52,10 @@ class Month:
         file.close()
 
 
-def main(args):
+def main(argv):
     # Setting the headers and making HTTP request for the website HTML
     header = {'User-Agent': 'Mozilla/5.0'}
-    request = urllib.request.Request(args['url'], headers=header)
+    request = urllib.request.Request(argv['url'], headers=header)
 
     # Receive the response in HTML form, response.read returns the HTML
     response = urllib.request.urlopen(request)
@@ -69,7 +70,7 @@ def main(args):
 
     for tableData in table:
         if len(array) >= 5:
-            record = Month(args['game'], array[0], array[1], array[2], array[3], array[4])
+            record = Month(argv['game'], array[0], array[1], array[2], array[3], array[4])
             record.save()
             data.append(record)
             array.clear()
@@ -79,28 +80,38 @@ def main(args):
         item = tableData.text.strip()
         array.append(item)
 
-toCall = [
-    {
-        'game': 'Dota2',
-        'url': 'https://steamcharts.com/app/570'
-    },
-    {
-        'game': 'PUBG',
-        'url': 'https://steamcharts.com/app/578080'
-    },
-    {
-        'game': 'Destiny2',
-        'url': 'https://steamcharts.com/app/1085660'
-    },
-    {
-        'game': 'GTAV',
-        'url': 'https://steamcharts.com/app/271590'
-    },
-    {
-        'game': 'TF2',
-        'url': 'https://steamcharts.com/app/440'
-    }
-]
 
-for arg in toCall:
-    main(arg)
+parser = OptionParser()
+parser.add_option("-g", "--game", dest="game",
+                  help="set the name of the game requested. required to create new file")
+parser.add_option("-u", "--url", dest="url",
+                  help="set the URL to scrape from")
+(options, args) = parser.parse_args()
+arguments = vars(options)
+
+main(arguments)
+
+# Below are example flags you can set
+
+# toCall = [
+#     {
+#         'game': 'Dota2',
+#         'url': 'https://steamcharts.com/app/570'
+#     },
+#     {
+#         'game': 'PUBG',
+#         'url': 'https://steamcharts.com/app/578080'
+#     },
+#     {
+#         'game': 'Destiny2',
+#         'url': 'https://steamcharts.com/app/1085660'
+#     },
+#     {
+#         'game': 'GTAV',
+#         'url': 'https://steamcharts.com/app/271590'
+#     },
+#     {
+#         'game': 'TF2',
+#         'url': 'https://steamcharts.com/app/440'
+#     }
+# ]
