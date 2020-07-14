@@ -19,10 +19,6 @@ class Month:
         self.percentGain = percent_gain
         self.peak = peak
 
-#    def show(self):
-#        print("Month\t\t\tAverage Players\t\tPlayer Gain\t\tPercentage Gain\t\tPeak")
-#        print(f"{self.month}\t{self.avgPlayers}\t\t{self.gain}\t\t{self.percentGain}\t\t{self.peak}")
-
     def read(self):
         file = open(f'{self.game}.txt', 'r')
         to_return = file.readlines()
