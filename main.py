@@ -86,28 +86,3 @@ parser.add_option("-u", "--url", dest="url",
 arguments = vars(options)
 
 main(arguments)
-
-# Below are example flags you can set
-
-# toCall = [
-#     {
-#         'game': 'Dota2',
-#         'url': 'https://steamcharts.com/app/570'
-#     },
-#     {
-#         'game': 'PUBG',
-#         'url': 'https://steamcharts.com/app/578080'
-#     },
-#     {
-#         'game': 'Destiny2',
-#         'url': 'https://steamcharts.com/app/1085660'
-#     },
-#     {
-#         'game': 'GTAV',
-#         'url': 'https://steamcharts.com/app/271590'
-#     },
-#     {
-#         'game': 'TF2',
-#         'url': 'https://steamcharts.com/app/440'
-#     }
-# ]
